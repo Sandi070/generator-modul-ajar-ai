@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Working App</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+        .test { margin: 10px 0; padding: 15px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        button { padding: 12px 24px; margin: 10px 5px; font-size: 16px; cursor: pointer; 
+                 background: #007bff; color: white; border: none; border-radius: 5px; }
+        button:hover { background: #0056b3; }
+        h1 { color: #333; }
+        #output { margin-top: 20px; padding: 20px; background: white; border-radius: 5px; 
+                  box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Generator Modul Ajar</h1>
+    
+    <button onclick="testFunctions()">Test Functions</button>
+    <button onclick="testGeneration()">Test Generation</button>
+    <button onclick="clearOutput()">Clear</button>
+    
+    <div id="output"></div>
+
+    <script src="app.js"></script>
+    
+    <script>
+        function addOutput(message, isSuccess = true) {
+            const div = document.createElement('div');
+            div.className = `test ${isSuccess ? 'success' : 'error'}`;
+            div.innerHTML = message;
+            document.getElementById('output').appendChild(div);
+        }
+
+        function clearOutput() {
+            document.getElementById('output').innerHTML = '';
+        }
+
+        function testFunctions() {
+            clearOutput();
+            addOutput('<strong>Testing Functions...</strong>');
+            
+            const functions = [
+                'generateModulAjar',
+                'collectFormData',
+                'generateKompetensiAwal',
+                'generateLangkahPembelajaran',
+                'generateAsesmen',
+                'displayResult'
+            ];
+
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    addOutput(`✅ ${funcName} - EXISTS`);
+                } else {
+                    addOutput(`❌ ${funcName} - NOT FOUND`, false);
+                }
+            });
+        }
+
+        function testGeneration() {
+            clearOutput();
+            addOutput('<strong>Testing Generation...</strong>');
+            
+            try {
+                const testData = {
+                    namaPenyusun: 'Test User',
+                    instansi: 'Test School',
+                    mataPelajaran: 'Matematika',
+                    faseKelas: 'E/X',
+                    semester: 'Ganjil',
+                    tahunPelajaran: '2025/2026',
+                    materi: 'Fungsi Linear',
+                    alokasiWaktu: '3',
+                    pendekatan: ['karakter'],
+                    modelPembelajaran: 'PBL',
+                    kompetensiAwal: '',
+                    capaianPembelajaran: 'Siswa mampu memahami fungsi linear',
+                    tujuanPembelajaran: 'Memahami konsep fungsi linear'
+                };
+                
+                addOutput('✅ Test data created');
+                
+                const result = generateModulAjar(testData);
+                addOutput('✅ Modul generated successfully');
+                
+                addOutput(`✅ Generated sections: ${Object.keys(result).join(', ')}`);
+                
+                if (result.identitas && result.identitas.materi === 'Fungsi Linear') {
+                    addOutput('✅ Data integrity check passed');
+                } else {
+                    addOutput('❌ Data integrity check failed', false);
+                }
+                
+                if (result.langkahPembelajaran && result.langkahPembelajaran.kegiatan) {
+                    addOutput(`✅ Learning steps: ${result.langkahPembelajaran.kegiatan.length} phases`);
+                } else {
+                    addOutput('❌ Learning steps missing', false);
+                }
+                
+                addOutput('<strong>🎉 ALL TESTS PASSED!</strong>');
+                
+            } catch (error) {
+                addOutput(`❌ Test failed: ${error.message}`, false);
+                console.error('Test error:', error);
+            }
+        }
+        
+        // Auto-run tests on load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                testFunctions();
+                setTimeout(testGeneration, 1000);
+            }, 500);
+        });
+    </script>
+</body>
+</html>

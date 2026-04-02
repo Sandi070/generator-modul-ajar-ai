@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Pereaksi Pembatas - AI Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2E74B5; }
+        h2 { color: #4472C4; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #17a2b8; }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #4472C4;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test AI Generator - Pereaksi Pembatas</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Check AIGenerator Availability</h2>
+        <button onclick="testAIGeneratorAvailability()">Run Test</button>
+        <div id="test1-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Generate Diagnostic Questions</h2>
+        <button onclick="testDiagnosticQuestions()">Run Test</button>
+        <div id="test2-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Generate Summative Questions</h2>
+        <button onclick="testSummativeQuestions()">Run Test</button>
+        <div id="test3-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 4: Full Modul Generation</h2>
+        <button onclick="testFullModul()">Run Test</button>
+        <div id="test4-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 5: Check Learning Steps</h2>
+        <button onclick="testLearningSteps()">Run Test</button>
+        <div id="test5-result"></div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="ai-generator.js"></script>
+    <script src="ai-api.js"></script>
+    <script src="demo-data.js"></script>
+    <script src="app.js"></script>
+    
+    <script>
+        function testAIGeneratorAvailability() {
+            const result = document.getElementById('test1-result');
+            result.innerHTML = '<p class="info">Testing...</p>';
+            
+            if (typeof AIGenerator !== 'undefined') {
+                result.innerHTML = `
+                    <div class="result">
+                        <p class="success">✅ AIGenerator is available!</p>
+                        <p>Available methods:</p>
+                        <ul>
+                            <li>generateDiagnosticQuestions: ${typeof AIGenerator.generateDiagnosticQuestions}</li>
+                            <li>generateSummativeQuestions: ${typeof AIGenerator.generateSummativeQuestions}</li>
+                            <li>generateSpecificActivities: ${typeof AIGenerator.generateSpecificActivities}</li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                result.innerHTML = '<div class="result"><p class="error">❌ AIGenerator is NOT available!</p></div>';
+            }
+        }
+        
+        function testDiagnosticQuestions() {
+            const result = document.getElementById('test2-result');
+            result.innerHTML = '<p class="info">Testing...</p>';
+            
+            console.log('=== TEST: Diagnostic Questions ===');
+            const questions = AIGenerator.generateDiagnosticQuestions('Kimia', 'Pereaksi Pembatas');
+            
+            result.innerHTML = `
+                <div class="result">
+                    <p class="success">✅ Generated ${questions.length} diagnostic questions:</p>
+                    <ol>
+                        ${questions.map(q => `<li>${q}</li>`).join('')}
+                    </ol>
+                    <p><strong>Check:</strong> ${questions.some(q => q.includes('pereaksi pembatas') || q.includes('H₂') || q.includes('O₂')) ? '✅ Contains specific content!' : '❌ Too generic!'}</p>
+                </div>
+            `;
+        }
+        
+        function testSummativeQuestions() {
+            const result = document.getElementById('test3-result');
+            result.innerHTML = '<p class="info">Testing...</p>';
+            
+            console.log('=== TEST: Summative Questions ===');
+            const questions = AIGenerator.generateSummativeQuestions('Kimia', 'Pereaksi Pembatas');
+            
+            result.innerHTML = `
+                <div class="result">
+                    <p class="success">✅ Generated ${questions.length} summative questions:</p>
+                    <ol>
+                        ${questions.map(q => `<li>${q}</li>`).join('')}
+                    </ol>
+                    <p><strong>Check:</strong> ${questions.some(q => q.includes('gram') || q.includes('Ar') || q.includes('massa')) ? '✅ Contains calculations!' : '❌ No calculations!'}</p>
+                </div>
+            `;
+        }
+        
+        function testFullModul() {
+            const result = document.getElementById('test4-result');
+            result.innerHTML = '<p class="info">Testing...</p>';
+            
+            console.log('=== TEST: Full Modul Generation ===');
+            
+            const testData = {
+                namaPenyusun: 'Test User',
+                instansi: 'Test School',
+                mataPelajaran: 'Kimia',
+                faseKelas: 'E/X',
+                semester: 'Ganjil',
+                tahunPelajaran: '2025/2026',
+                materi: 'Pereaksi Pembatas',
+                alokasiWaktu: '4',
+                pendekatan: ['karakter', 'tik'],
+                modelPembelajaran: 'PBL',
+                kompetensiAwal: 'Memahami konsep mol\nMemahami persamaan reaksi',
+                capaianPembelajaran: 'Siswa mampu menentukan pereaksi pembatas dalam reaksi kimia',
+                tujuanPembelajaran: 'Menghitung pereaksi pembatas\nMenentukan massa produk maksimum'
+            };
+            
+            const modul = generateModulAjar(testData);
+            
+            result.innerHTML = `
+                <div class="result">
+                    <p class="success">✅ Modul generated successfully!</p>
+                    <h3>Asesmen Diagnostik:</h3>
+                    <ol>
+                        ${modul.asesmen.diagnostik.soal.map(s => `<li>${s}</li>`).join('')}
+                    </ol>
+                    <h3>Asesmen Sumatif:</h3>
+                    <ol>
+                        ${modul.asesmen.sumatif.soal.map(s => `<li>${s}</li>`).join('')}
+                    </ol>
+                    <p><strong>Quality Check:</strong></p>
+                    <ul>
+                        <li>${modul.asesmen.sumatif.soal.some(s => s.includes('gram')) ? '✅' : '❌'} Contains mass calculations</li>
+                        <li>${modul.asesmen.sumatif.soal.some(s => s.includes('Ar')) ? '✅' : '❌'} Contains atomic mass (Ar)</li>
+                        <li>${modul.asesmen.sumatif.soal.some(s => s.includes('pereaksi pembatas') || s.includes('limiting')) ? '✅' : '❌'} Mentions limiting reagent</li>
+                    </ul>
+                </div>
+            `;
+        }
+        
+        function testLearningSteps() {
+            const result = document.getElementById('test5-result');
+            result.innerHTML = '<p class="info">Testing...</p>';
+            
+            console.log('=== TEST: Learning Steps ===');
+            
+            const testData = {
+                mataPelajaran: 'Kimia',
+                materi: 'Pereaksi Pembatas',
+                modelPembelajaran: 'PBL'
+            };
+            
+            const steps = generateKegiatanInti(testData);
+            
+            result.innerHTML = `
+                <div class="result">
+                    <p class="success">✅ Generated ${steps.length} learning phases:</p>
+                    ${steps.map(step => `
+                        <h4>${step.fase}</h4>
+                        <ul>
+                            ${step.aktivitas.map(a => `<li>${a}</li>`).join('')}
+                        </ul>
+                    `).join('')}
+                    <p><strong>Specificity Check:</strong></p>
+                    <ul>
+                        <li>${JSON.stringify(steps).includes('magnesium') ? '✅' : '❌'} Contains specific demonstration</li>
+                        <li>${JSON.stringify(steps).includes('mol') ? '✅' : '❌'} Mentions mol calculations</li>
+                        <li>${JSON.stringify(steps).includes('koefisien') ? '✅' : '❌'} Mentions reaction coefficients</li>
+                    </ul>
+                </div>
+            `;
+        }
+        
+        // Auto-run all tests on load
+        window.addEventListener('load', function() {
+            console.log('🧪 Starting automated tests...');
+            setTimeout(() => {
+                testAIGeneratorAvailability();
+                setTimeout(() => testDiagnosticQuestions(), 500);
+                setTimeout(() => testSummativeQuestions(), 1000);
+                setTimeout(() => testFullModul(), 1500);
+                setTimeout(() => testLearningSteps(), 2000);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
