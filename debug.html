@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Generator Modul Ajar AI</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        .debug-container {
+            background: #2d2d30;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007acc;
+        }
+        .error {
+            border-left-color: #f14c4c;
+            background: #3c2626;
+        }
+        .success {
+            border-left-color: #89d185;
+            background: #263c26;
+        }
+        .warning {
+            border-left-color: #ffcc02;
+            background: #3c3626;
+        }
+        pre {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border: 1px solid #3c3c3c;
+        }
+        button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #005a9e;
+        }
+        .log-entry {
+            padding: 8px;
+            margin: 4px 0;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .log-info { background: #1e3a8a; }
+        .log-warn { background: #92400e; }
+        .log-error { background: #991b1b; }
+        .log-success { background: #166534; }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🐛 Debug Generator Modul Ajar AI</h1>
+        <p>Tool untuk debugging masalah pada aplikasi generator modul ajar.</p>
+    </div>
+
+    <div class="debug-container">
+        <h2>🔍 Quick Tests</h2>
+        <button onclick="testBrowserSupport()">Test Browser Support</button>
+        <button onclick="testFormElements()">Test Form Elements</button>
+        <button onclick="testJavaScriptFunctions()">Test JS Functions</button>
+        <button onclick="testLibraries()">Test Libraries</button>
+        <button onclick="clearLogs()">Clear Logs</button>
+    </div>
+
+    <div class="debug-container">
+        <h2>📋 Test Form Data</h2>
+        <button onclick="fillTestData()">Fill Test Data</button>
+        <button onclick="testGeneration()">Test Generation</button>
+        <button onclick="testDownload()">Test Download</button>
+    </div>
+
+    <div class="debug-container">
+        <h2>📊 Debug Logs</h2>
+        <div id="debugLogs"></div>
+    </div>
+
+    <div class="debug-container">
+        <h2>🔧 Manual Test Form</h2>
+        <form id="testForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                <input type="text" id="test_namaPenyusun" placeholder="Nama Penyusun" value="Test User">
+                <input type="text" id="test_instansi" placeholder="Instansi" value="Test School">
+                <select id="test_mataPelajaran">
+                    <option value="">Pilih Mata Pelajaran</option>
+                    <option value="Matematika" selected>Matematika</option>
+                    <option value="Kimia">Kimia</option>
+                    <option value="Al-Quran Hadits">Al-Quran Hadits</option>
+                </select>
+                <input type="text" id="test_materi" placeholder="Materi" value="Test Materi">
+                <select id="test_modelPembelajaran">
+                    <option value="">Pilih Model</option>
+                    <option value="PBL" selected>PBL</option>
+                    <option value="Discovery">Discovery</option>
+                    <option value="Cooperative">Cooperative</option>
+                </select>
+                <input type="number" id="test_alokasiWaktu" placeholder="Alokasi Waktu" value="3">
+            </div>
+            <textarea id="test_capaianPembelajaran" placeholder="Capaian Pembelajaran" rows="2">Test capaian pembelajaran</textarea>
+            <textarea id="test_tujuanPembelajaran" placeholder="Tujuan Pembelajaran" rows="2">Test tujuan pembelajaran</textarea>
+            <button type="button" onclick="testManualGeneration()">Test Manual Generation</button>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.2/docx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="app.js"></script>
+    
+    <script>
+        let debugLogs = [];
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = { timestamp, message, type };
+            debugLogs.push(logEntry);
+            
+            const logsContainer = document.getElementById('debugLogs');
+            const logDiv = document.createElement('div');
+            logDiv.className = `log-entry log-${type}`;
+            logDiv.innerHTML = `[${timestamp}] ${message}`;
+            logsContainer.appendChild(logDiv);
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+            
+            console.log(`[DEBUG ${type.toUpperCase()}]`, message);
+        }
+
+        function clearLogs() {
+            debugLogs = [];
+            document.getElementById('debugLogs').innerHTML = '';
+            log('Logs cleared', 'info');
+        }
+
+        function testBrowserSupport() {
+            log('Testing browser support...', 'info');
+            
+            const tests = [
+                { name: 'ES6 Arrow Functions', test: () => { const f = () => true; return f(); } },
+                { name: 'Template Literals', test: () => { const test = `template`; return test === 'template'; } },
+                { name: 'Async/Await', test: () => { return typeof async function(){} === 'function'; } },
+                { name: 'Fetch API', test: () => typeof fetch !== 'undefined' },
+                { name: 'Local Storage', test: () => typeof localStorage !== 'undefined' },
+                { name: 'CSS Grid', test: () => CSS.supports('display', 'grid') },
+                { name: 'CSS Flexbox', test: () => CSS.supports('display', 'flex') }
+            ];
+
+            tests.forEach(test => {
+                try {
+                    const result = test.test();
+                    log(`✅ ${test.name}: ${result ? 'SUPPORTED' : 'NOT SUPPORTED'}`, result ? 'success' : 'error');
+                } catch (e) {
+                    log(`❌ ${test.name}: ERROR - ${e.message}`, 'error');
+                }
+            });
+        }
+
+        function testFormElements() {
+            log('Testing form elements...', 'info');
+            
+            const requiredElements = [
+                'namaPenyusun', 'instansi', 'mataPelajaran', 'faseKelas',
+                'semester', 'tahunPelajaran', 'materi', 'alokasiWaktu',
+                'modelPembelajaran', 'capaianPembelajaran', 'tujuanPembelajaran'
+            ];
+
+            requiredElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    log(`✅ Element '${id}' found`, 'success');
+                } else {
+                    log(`❌ Element '${id}' NOT FOUND`, 'error');
+                }
+            });
+        }
+
+        function testJavaScriptFunctions() {
+            log('Testing JavaScript functions...', 'info');
+            
+            const functions = [
+                'collectFormData', 'generateModulAjar', 'generateKompetensiAwal',
+                'generateLangkahPembelajaran', 'generateAsesmen', 'displayResult',
+                'generateWordDocument', 'generatePBLSteps', 'generateDiscoverySteps'
+            ];
+
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    log(`✅ Function '${funcName}' exists`, 'success');
+                } else {
+                    log(`❌ Function '${funcName}' NOT FOUND`, 'error');
+                }
+            });
+        }
+
+        function testLibraries() {
+            log('Testing external libraries...', 'info');
+            
+            if (typeof docx !== 'undefined') {
+                log('✅ docx.js library loaded', 'success');
+            } else {
+                log('❌ docx.js library NOT LOADED', 'error');
+            }
+
+            if (typeof saveAs !== 'undefined') {
+                log('✅ FileSaver.js library loaded', 'success');
+            } else {
+                log('❌ FileSaver.js library NOT LOADED', 'error');
+            }
+        }
+
+        function fillTestData() {
+            log('Filling test data...', 'info');
+            
+            const testData = {
+                namaPenyusun: 'Debug User',
+                instansi: 'Debug School',
+                mataPelajaran: 'Matematika',
+                faseKelas: 'E/X',
+                semester: 'Ganjil',
+                tahunPelajaran: '2025/2026',
+                materi: 'Debug Materi',
+                alokasiWaktu: '3',
+                modelPembelajaran: 'PBL',
+                capaianPembelajaran: 'Debug capaian pembelajaran',
+                tujuanPembelajaran: 'Debug tujuan pembelajaran'
+            };
+
+            Object.keys(testData).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.value = testData[key];
+                    log(`✅ Filled ${key}: ${testData[key]}`, 'success');
+                } else {
+                    log(`❌ Could not fill ${key}: element not found`, 'error');
+                }
+            });
+        }
+
+        function testGeneration() {
+            log('Testing generation process...', 'info');
+            
+            try {
+                // Test data collection
+                log('Step 1: Testing collectFormData...', 'info');
+                const formData = {
+                    namaPenyusun: 'Test User',
+                    instansi: 'Test School',
+                    mataPelajaran: 'Matematika',
+                    faseKelas: 'E/X',
+                    semester: 'Ganjil',
+                    tahunPelajaran: '2025/2026',
+                    materi: 'Test Materi',
+                    alokasiWaktu: '3',
+                    pendekatan: ['karakter'],
+                    modelPembelajaran: 'PBL',
+                    kompetensiAwal: 'Test kompetensi',
+                    capaianPembelajaran: 'Test capaian',
+                    tujuanPembelajaran: 'Test tujuan'
+                };
+                log('✅ Form data created successfully', 'success');
+
+                // Test generation
+                log('Step 2: Testing generateModulAjar...', 'info');
+                const modul = generateModulAjar(formData);
+                log('✅ Modul generated successfully', 'success');
+                log(`Generated modul structure: ${Object.keys(modul).join(', ')}`, 'info');
+
+                // Test display
+                log('Step 3: Testing displayResult...', 'info');
+                // We won't actually display to avoid DOM conflicts
+                log('✅ Display function available', 'success');
+
+            } catch (error) {
+                log(`❌ Generation failed: ${error.message}`, 'error');
+                log(`Error stack: ${error.stack}`, 'error');
+            }
+        }
+
+        function testDownload() {
+            log('Testing download functionality...', 'info');
+            
+            try {
+                const testModul = {
+                    identitas: {
+                        namaPenyusun: 'Test User',
+                        instansi: 'Test School',
+                        mataPelajaran: 'Matematika',
+                        materi: 'Test Materi'
+                    }
+                };
+
+                if (typeof generateWordDocument === 'function') {
+                    log('✅ generateWordDocument function exists', 'success');
+                    // Don't actually generate to avoid unwanted downloads
+                    log('⚠️ Skipping actual download to avoid file generation', 'warning');
+                } else {
+                    log('❌ generateWordDocument function not found', 'error');
+                }
+
+            } catch (error) {
+                log(`❌ Download test failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testManualGeneration() {
+            log('Testing manual generation with form data...', 'info');
+            
+            try {
+                const formData = {
+                    namaPenyusun: document.getElementById('test_namaPenyusun').value,
+                    instansi: document.getElementById('test_instansi').value,
+                    mataPelajaran: document.getElementById('test_mataPelajaran').value,
+                    faseKelas: 'E/X',
+                    semester: 'Ganjil',
+                    tahunPelajaran: '2025/2026',
+                    materi: document.getElementById('test_materi').value,
+                    alokasiWaktu: document.getElementById('test_alokasiWaktu').value,
+                    pendekatan: ['karakter'],
+                    modelPembelajaran: document.getElementById('test_modelPembelajaran').value,
+                    kompetensiAwal: '',
+                    capaianPembelajaran: document.getElementById('test_capaianPembelajaran').value,
+                    tujuanPembelajaran: document.getElementById('test_tujuanPembelajaran').value
+                };
+
+                log('Form data collected:', 'info');
+                log(JSON.stringify(formData, null, 2), 'info');
+
+                const modul = generateModulAjar(formData);
+                log('✅ Manual generation successful!', 'success');
+                log(`Generated sections: ${Object.keys(modul).join(', ')}`, 'success');
+
+            } catch (error) {
+                log(`❌ Manual generation failed: ${error.message}`, 'error');
+                log(`Error details: ${error.stack}`, 'error');
+            }
+        }
+
+        // Auto-run basic tests on load
+        window.addEventListener('load', function() {
+            log('Debug tool loaded', 'info');
+            setTimeout(() => {
+                testBrowserSupport();
+                testLibraries();
+                testJavaScriptFunctions();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Modul Ajar AI - Kurikulum Berbasis Cinta</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="Generator modul ajar otomatis dengan AI untuk Kurikulum Berbasis Cinta Kementerian Agama RI">
+    <meta name="keywords" content="modul ajar, kurikulum berbasis cinta, kementerian agama, AI generator, pendidikan islam">
+    <link rel="icon" type="image/png" href="icon-192.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Generator Modul Ajar AI</h1>
+            <p class="subtitle">Kurikulum Berbasis Cinta - Kementerian Agama RI</p>
+        </header>
+
+        <div class="form-container">
+            <form id="modulForm">
+                <!-- Identitas Modul -->
+                <section class="form-section">
+                    <h2>📋 Identitas Modul</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nama Penyusun</label>
+                            <input type="text" id="namaPenyusun" required>
+                            <div class="error-message">Nama penyusun wajib diisi</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Instansi</label>
+                            <input type="text" id="instansi" required>
+                            <div class="error-message">Instansi wajib diisi</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Mata Pelajaran</label>
+                            <select id="mataPelajaran" required>
+                                <option value="">Pilih Mata Pelajaran</option>
+                                <optgroup label="Mata Pelajaran Umum">
+                                    <option value="Matematika">Matematika</option>
+                                    <option value="Fisika">Fisika</option>
+                                    <option value="Kimia">Kimia</option>
+                                    <option value="Biologi">Biologi</option>
+                                    <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                                    <option value="Bahasa Inggris">Bahasa Inggris</option>
+                                    <option value="Sejarah">Sejarah</option>
+                                    <option value="Geografi">Geografi</option>
+                                    <option value="Ekonomi">Ekonomi</option>
+                                    <option value="Sosiologi">Sosiologi</option>
+                                </optgroup>
+                                <optgroup label="Mata Pelajaran Agama">
+                                    <option value="Al-Quran Hadits">Al-Quran Hadits</option>
+                                    <option value="Akidah Akhlak">Akidah Akhlak</option>
+                                    <option value="Fiqih">Fiqih</option>
+                                    <option value="Sejarah Kebudayaan Islam">Sejarah Kebudayaan Islam</option>
+                                    <option value="Bahasa Arab">Bahasa Arab</option>
+                                </optgroup>
+                            </select>
+                            <div class="error-message">Mata pelajaran wajib dipilih</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fase/Kelas</label>
+                            <input type="text" id="faseKelas" placeholder="Contoh: E/X" required>
+                            <div class="error-message">Fase/Kelas wajib diisi</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Semester</label>
+                            <select id="semester" required>
+                                <option value="">Pilih Semester</option>
+                                <option value="Ganjil">Ganjil</option>
+                                <option value="Genap">Genap</option>
+                            </select>
+                            <div class="error-message">Semester wajib dipilih</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Tahun Pelajaran</label>
+                            <input type="text" id="tahunPelajaran" placeholder="2025/2026" required>
+                            <div class="error-message">Tahun pelajaran wajib diisi</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Materi/Topik</label>
+                            <input type="text" id="materi" required>
+                            <div class="error-message">Materi/Topik wajib diisi</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Alokasi Waktu (JP)</label>
+                            <input type="number" id="alokasiWaktu" min="1" required>
+                            <div class="error-message">Alokasi waktu wajib diisi</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pendekatan Pembelajaran -->
+                <section class="form-section">
+                    <h2>🎯 Pendekatan Pembelajaran</h2>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="pendekatan" value="karakter">
+                            <span>Pendidikan Karakter</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="pendekatan" value="moderasi">
+                            <span>Moderasi Beragama</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="pendekatan" value="bilingual-en">
+                            <span>Bilingual (Indonesia-Inggris)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="pendekatan" value="bilingual-ar">
+                            <span>Bilingual (Indonesia-Arab)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="pendekatan" value="tik">
+                            <span>Berbasis TIK</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="pendekatan" value="inovatif">
+                            <span>Pembelajaran Inovatif</span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Model Pembelajaran -->
+                <section class="form-section">
+                    <h2>📚 Model Pembelajaran</h2>
+                    <div class="form-group">
+                        <select id="modelPembelajaran" required>
+                            <option value="">Pilih Model</option>
+                            <option value="PBL">Problem Based Learning (PBL)</option>
+                            <option value="PjBL">Project Based Learning (PjBL)</option>
+                            <option value="Discovery">Discovery Learning</option>
+                            <option value="Inquiry">Inquiry Learning</option>
+                            <option value="Cooperative">Cooperative Learning</option>
+                            <option value="STEAM">STEAM</option>
+                        </select>
+                        <div class="error-message">Model pembelajaran wajib dipilih</div>
+                    </div>
+                </section>
+
+                <!-- Kompetensi & Tujuan -->
+                <section class="form-section">
+                    <h2>🎓 Kompetensi & Tujuan</h2>
+                    <div class="form-group">
+                        <label>Kompetensi Awal (pisahkan dengan enter)</label>
+                        <textarea id="kompetensiAwal" rows="3" placeholder="Contoh:&#10;- Memahami konsep dasar&#10;- Menguasai materi prasyarat"></textarea>
+                        <div class="error-message">Kompetensi awal dapat diisi atau dikosongkan (akan di-generate otomatis)</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Capaian Pembelajaran</label>
+                        <textarea id="capaianPembelajaran" rows="2" required></textarea>
+                        <div class="error-message">Capaian pembelajaran wajib diisi</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Tujuan Pembelajaran (pisahkan dengan enter)</label>
+                        <textarea id="tujuanPembelajaran" rows="3" required></textarea>
+                        <div class="error-message">Tujuan pembelajaran wajib diisi</div>
+                    </div>
+                </section>
+
+                <button type="submit" class="btn-generate" id="generateBtn">
+                    <span class="btn-text">🤖 Generate Modul Ajar dengan AI</span>
+                    <span class="loader" style="display: none;"></span>
+                </button>
+            </form>
+        </div>
+
+        <div id="resultContainer" style="display: none;">
+            <div class="result-header">
+                <h2>✅ Modul Ajar Berhasil Dibuat</h2>
+                <button class="btn-download" id="downloadBtn">📥 Download (Word/PDF/HTML)</button>
+            </div>
+            <div id="previewContainer" class="preview"></div>
+        </div>
+    </div>
+
+    <!-- Libraries for document generation -->
+    <!-- Using multiple CDN sources for reliability -->
+    <script src="https://unpkg.com/docx@7.8.2/build/index.js" onerror="console.warn('Primary docx CDN failed')"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html-docx-js@0.3.1/dist/html-docx.js"></script>
+    
+    <!-- Application scripts -->
+    <script src="config.js"></script>
+    <script src="ai-generator.js"></script>
+    <script src="ai-api.js"></script>
+    <script src="demo-data.js"></script>
+    <script src="app.js"></script>
+    
+    <!-- Check if libraries loaded -->
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                console.log('=== Library Check ===');
+                console.log('docx:', typeof docx !== 'undefined' ? '✅ Loaded' : '❌ Not loaded');
+                console.log('htmlDocx:', typeof htmlDocx !== 'undefined' ? '✅ Loaded' : '❌ Not loaded');
+                console.log('saveAs:', typeof saveAs !== 'undefined' ? '✅ Loaded' : '❌ Not loaded');
+                console.log('jsPDF:', typeof window.jspdf !== 'undefined' ? '✅ Loaded' : '❌ Not loaded');
+                
+                if (typeof docx === 'undefined' && typeof htmlDocx === 'undefined') {
+                    console.warn('⚠️ Word libraries not loaded. Will use HTML to Word conversion.');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
